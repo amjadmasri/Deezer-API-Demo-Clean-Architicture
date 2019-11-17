@@ -1,0 +1,30 @@
+package com.amjad.deezerchallange.domain.models
+
+data class AlbumDomainModel (
+    val artist: ArtistDomainModel?,
+    val available: Boolean?,
+    val contributors: List<ContributorDomainModel>?,
+    val cover: String?,
+    val coverBig: String?,
+    val coverMedium: String?,
+    val coverSmall: String?,
+    val coverXl: String?,
+    val duration: Int?,
+    val explicitContentCover: Int?,
+    val explicitContentLyrics: Int?,
+    val explicitLyrics: Boolean?,
+    val fans: Int?,
+    val genreId: Int?,
+    val genres: List<GenreDomainModel>?,
+    val id: Int,
+    val label: String?,
+    val nbTracks: Int?,
+    val rating: Int?,
+    val recordType: String?,
+    val releaseDate: String?,
+    val share: String?,
+    val title: String?,
+    val tracklist: String?,
+    val tracksResponse: List<TrackDomainModel>?,
+    val upc: String?
+)
