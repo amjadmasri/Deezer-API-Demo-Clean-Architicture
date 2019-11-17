@@ -5,6 +5,7 @@ import com.amjad.deezerchallange.common.di.builders.ActivityBuilderModule
 import com.amjad.deezerchallange.common.di.builders.FragmentBuilderModule
 import com.amjad.deezerchallange.common.di.modules.AppModule
 import com.amjad.deezerchallange.common.di.modules.ViewModelModule
+import com.amjad.deezerchallange.data.di.DataModule
 
 import dagger.BindsInstance
 import dagger.Component
@@ -19,7 +20,8 @@ import javax.inject.Singleton
         ViewModelModule::class,
         AppModule::class,
         ActivityBuilderModule::class,
-        FragmentBuilderModule::class
+        FragmentBuilderModule::class,
+        DataModule::class
     ]
 )
 interface AppComponent : AndroidInjector<DeezerApplication> {

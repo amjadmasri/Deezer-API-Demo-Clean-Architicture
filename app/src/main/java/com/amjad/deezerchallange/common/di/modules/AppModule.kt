@@ -6,6 +6,7 @@ import com.amjad.deezerchallange.common.DeezerApplication
 import com.amjad.deezerchallange.common.di.interfaces.ApiUrlInfo
 import com.amjad.deezerchallange.common.di.interfaces.DateFormatInfo
 import com.amjad.deezerchallange.common.utilities.AppConstants
+import com.amjad.deezerchallange.common.utilities.UrlExtractor
 import com.amjad.deezerchallange.data.remote.ApiService
 
 import com.google.gson.Gson
@@ -28,13 +29,16 @@ class AppModule {
     @ApiUrlInfo
     fun provideApiURlInfo(): String = AppConstants.API_BASE_URL
 
+
     @Provides
     @DateFormatInfo
     fun provideDateFormat(): String = AppConstants.DATE_FORMAT
 
+
     @Provides
     @Singleton
     fun provideContext(application: DeezerApplication): Context = application
+
 
 
     @Singleton
@@ -51,9 +55,11 @@ class AppModule {
             .build()
 
 
+
     @Provides
     fun provideApiService(retrofit: Retrofit): ApiService =
         retrofit.create<ApiService>(ApiService::class.java)
+
 
 
     @Provides
@@ -69,6 +75,7 @@ class AppModule {
             .build()
 
 
+
     @Provides
     fun provideHTTPLoggingInterceptor(): HttpLoggingInterceptor {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
@@ -76,9 +83,11 @@ class AppModule {
         return httpLoggingInterceptor
     }
 
+
     @Singleton
     @Provides
     fun gsonConverterFactory(gson: Gson): GsonConverterFactory = GsonConverterFactory.create(gson)
+
 
 
     @Singleton
@@ -88,4 +97,7 @@ class AppModule {
         .setDateFormat(dateFormat)
         .create()
 
+
+    @Provides
+    fun provideUrlExtractor() :UrlExtractor = UrlExtractor()
 }
