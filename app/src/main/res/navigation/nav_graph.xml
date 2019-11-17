@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/searchArtistsFragment">
+
+    <fragment
+        android:id="@+id/searchArtistsFragment"
+        android:name="com.amjad.starwars.presentation.ui.searchArtists.SearchArtistsFragment"
+        android:label="SearchArtistsFragment" >
+        <action
+            android:id="@+id/action_searchArtistsFragment_to_albumsListFragment"
+            app:destination="@id/albumsListFragment"
+            app:popUpTo="@+id/searchArtistsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/albumsListFragment"
+        android:name="com.amjad.deezerchallange.presentation.ui.albumList.AlbumsListFragment"
+        android:label="Albums" >
+        <argument
+            android:name="artist_id"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_albumsListFragment_to_albumDetailsFragment"
+            app:destination="@id/albumDetailsFragment"
+            app:popUpTo="@+id/albumsListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/albumDetailsFragment"
+        android:name="com.amjad.deezerchallange.presentation.ui.albumDetails.AlbumDetailsFragment"
+        android:label=" "
+        tools:layout="@layout/fragment_album_details" >
+        <argument
+            android:name="album_data"
+            app:argType="string" />
+    </fragment>
+</navigation>
