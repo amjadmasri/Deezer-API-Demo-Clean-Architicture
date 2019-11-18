@@ -9,6 +9,7 @@ DataSource.Factory<Int,ArtistDomainModel>(){
     private lateinit var name: String
 
     override fun create(): DataSource<Int, ArtistDomainModel> {
+        require(!name.isNullOrEmpty())
         artistPagingDataSource.setSearchParameter(name)
         return artistPagingDataSource
     }

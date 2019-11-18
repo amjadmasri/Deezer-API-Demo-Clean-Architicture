@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 
@@ -36,6 +37,11 @@ class AlbumsPagedAdapter(albumDiffCallBacks: AlbumDiffCallBacks) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumSearchViewHolder =
         AlbumSearchViewHolder(parent, listener)
 
+    override fun onViewDetachedFromWindow(holder: AlbumSearchViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        holder.disposeObservables()
+    }
+
     interface AlbumAdapterListener {
 
         fun onAlbumClick(album: AlbumDomainModel?)
@@ -52,7 +58,7 @@ class AlbumsPagedAdapter(albumDiffCallBacks: AlbumDiffCallBacks) :
         private val artistName = itemView.findViewById<TextView>(R.id.artist_name)
         private val albumCover = itemView.findViewById<ImageView>(R.id.album_cover)
         private var albumDataModel: AlbumDomainModel? = null
-
+        private lateinit var disposable: Disposable
 
         @SuppressLint("CheckResult")
         fun bindTo(albumDataModel: AlbumDomainModel?) {
@@ -62,7 +68,7 @@ class AlbumsPagedAdapter(albumDiffCallBacks: AlbumDiffCallBacks) :
             Glide.with(albumCover)
                 .load(albumDataModel?.coverBig)
                 .into(albumCover)
-            listener.getAlbumDetails(albumDataModel!!.id)
+            disposable = listener.getAlbumDetails(albumDataModel!!.id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { albumFullDetails->
@@ -72,6 +78,11 @@ class AlbumsPagedAdapter(albumDiffCallBacks: AlbumDiffCallBacks) :
                    val names = (albumFullDetails.contributors?.map { contributorDomainModel -> contributorDomainModel.name })
                    artistName.text=names?.joinToString(", ")
                 }
+        }
+
+        fun disposeObservables(){
+            disposable.dispose()
+            albumItem.setOnClickListener(null)
         }
 
     }

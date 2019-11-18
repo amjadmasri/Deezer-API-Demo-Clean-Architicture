@@ -7,8 +7,11 @@ import android.content.Context
 import android.content.Context.SEARCH_SERVICE
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.LinearLayout
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -106,23 +109,9 @@ class SearchArtistsFragment : BaseFragment(),
     @SuppressLint("CheckResult")
     private fun setupUi() {
         val activity = activity as AppCompatActivity
-        activity.supportActionBar?.hide()
-        val manager = activity?.getSystemService(SEARCH_SERVICE) as SearchManager
-        searchView.setSearchableInfo(manager.getSearchableInfo(activity?.componentName))
-        val si = manager.getSearchableInfo(activity?.componentName)
-        val options = searchView.imeOptions
-        searchView.imeOptions = options or EditorInfo.IME_FLAG_NO_EXTRACT_UI
-        searchView.setSearchableInfo(si)
+        //activity.supportActionBar?.hide()
 
-        fromview(searchView)
-            .debounce(300, TimeUnit.MILLISECONDS)
-            .filter { text -> text.isNotEmpty() && text.length >= 3 }
-            .distinctUntilChanged()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                submitAndObserveSearch(it)
-            }
+
 
 
         artist_recycler.layoutManager = linearLayoutManager.get()
@@ -167,4 +156,34 @@ class SearchArtistsFragment : BaseFragment(),
         viewModel.setSearchString(name)
     }
 
+    @SuppressLint("CheckResult")
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater.inflate(R.menu.search_menu,menu)
+
+        val manager = activity?.getSystemService(SEARCH_SERVICE) as SearchManager
+        val searchItem = menu?.findItem(R.id.search_item)?.actionView
+        //val searchView = searchItem?.actionView as SearchView
+        val searchView =searchItem?.findViewById(R.id.searchView) as SearchView
+
+
+        searchView.setSearchableInfo(manager.getSearchableInfo(activity?.componentName))
+        val si = manager.getSearchableInfo(activity?.componentName)
+        val options = searchView.imeOptions
+        searchView.imeOptions = options or EditorInfo.IME_FLAG_NO_EXTRACT_UI
+        searchView.setSearchableInfo(si)
+        //searchView.onActionViewExpanded()
+        searchView.maxWidth = Integer.MAX_VALUE
+
+        fromview(searchView)
+            .debounce(300, TimeUnit.MILLISECONDS)
+            .filter { text -> text.isNotEmpty() && text.length >= 3 }
+            .distinctUntilChanged()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                submitAndObserveSearch(it)
+            }
+    }
 }

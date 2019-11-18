@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/searchArtistsFragment"
         android:name="com.amjad.starwars.presentation.ui.searchArtists.SearchArtistsFragment"
-        android:label="SearchArtistsFragment" >
+        android:label=" " >
         <action
             android:id="@+id/action_searchArtistsFragment_to_albumsListFragment"
             app:destination="@id/albumsListFragment"

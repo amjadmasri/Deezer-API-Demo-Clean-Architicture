@@ -8,4 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppSearchView" parent="Widget.AppCompat.SearchView" >
+
+    <!-- Query Text Color -->
+    <item name="android:textColorPrimary">@color/colorPrimary</item>
+    <!-- Hint Color -->
+    <item name="android:textColorHint">@color/colorPrimary</item>
+    <!-- Icon Color -->
+    <item name="android:tint">@color/colorPrimary</item>
+    </style>
+
 </resources>
