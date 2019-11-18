@@ -5,8 +5,8 @@ import com.amjad.deezerchallange.domain.repositories.AlbumRepository
 import io.reactivex.Observable
 import javax.inject.Inject
 
-class GetAlbumTracksUseCase @Inject constructor(private val albumRepository: AlbumRepository) {
+class GetAlbumTracksUseCase @Inject constructor(private val albumRepository: AlbumRepository) :UseCase<String,List<TrackDomainModel>>{
 
-    fun execute(id:String):Observable<List<TrackDomainModel>> =
+    override fun execute(id:String):Observable<List<TrackDomainModel>> =
         albumRepository.getAlbumTrack(id)
 }

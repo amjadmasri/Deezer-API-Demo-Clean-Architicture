@@ -6,9 +6,9 @@ import com.amjad.deezerchallange.domain.repositories.ArtistRepository
 import io.reactivex.Observable
 import javax.inject.Inject
 
-class GetArtistsAlbumsUseCase @Inject constructor(private val artistRepository: ArtistRepository) {
+class GetArtistsAlbumsUseCase @Inject constructor(private val artistRepository: ArtistRepository) :UseCase<String,PagedList<AlbumDomainModel>>{
 
-    fun execute(artistId: String): Observable<PagedList<AlbumDomainModel>> {
+    override fun execute(artistId: String): Observable<PagedList<AlbumDomainModel>> {
         return artistRepository.getArtistsAlbums(artistId, 0)
     }
 }

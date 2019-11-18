@@ -1,4 +1,4 @@
-package com.amjad.starwars.presentation.ui.searchArtists
+package com.amjad.deezerchallange.presentation.ui.searchArtist
 
 
 import android.annotation.SuppressLint
@@ -6,16 +6,13 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Context.SEARCH_SERVICE
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.LinearLayout
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
@@ -26,7 +23,6 @@ import com.amjad.deezerchallange.R
 import com.amjad.deezerchallange.common.models.Status
 import com.amjad.deezerchallange.domain.models.ArtistDomainModel
 import com.amjad.deezerchallange.presentation.ui.base.BaseFragment
-import com.amjad.deezerchallange.presentation.ui.searchArtist.ArtistsPagedAdapter
 import com.amjad.deezerchallange.presentation.viewModels.SearchArtistViewModel
 import com.amjad.deezerchallange.presentation.viewModels.ViewModelProviderFactory
 import io.reactivex.Observable
@@ -39,9 +35,6 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 
-/**
- * A simple [Fragment] subclass.
- */
 class SearchArtistsFragment : BaseFragment(),
     ArtistsPagedAdapter.ArtistAdapterListener {
 
@@ -97,10 +90,10 @@ class SearchArtistsFragment : BaseFragment(),
 
         viewModel.observeSearchResult()
             .observe(this, Observer {
-                when(it.status){
-                    Status.SUCCESS-> renderData(it.data)
-                    Status.LOADING->showLoading()
-                    Status.ERROR->showError(it.message)
+                when (it.status) {
+                    Status.SUCCESS -> renderData(it.data)
+                    Status.LOADING -> showLoading()
+                    Status.ERROR -> showError(it.message)
                 }
             })
     }
@@ -108,11 +101,6 @@ class SearchArtistsFragment : BaseFragment(),
 
     @SuppressLint("CheckResult")
     private fun setupUi() {
-        val activity = activity as AppCompatActivity
-        //activity.supportActionBar?.hide()
-
-
-
 
         artist_recycler.layoutManager = linearLayoutManager.get()
         artist_recycler.adapter = artistsPagedAdapter
@@ -121,7 +109,7 @@ class SearchArtistsFragment : BaseFragment(),
 
     }
 
-    fun fromview(searchView: SearchView): Observable<String> {
+    private fun createObservableFromView(searchView: SearchView): Observable<String> {
         val subject = PublishSubject.create<String>()
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -160,12 +148,12 @@ class SearchArtistsFragment : BaseFragment(),
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
-        inflater.inflate(R.menu.search_menu,menu)
+        inflater.inflate(R.menu.search_menu, menu)
 
         val manager = activity?.getSystemService(SEARCH_SERVICE) as SearchManager
         val searchItem = menu?.findItem(R.id.search_item)?.actionView
         //val searchView = searchItem?.actionView as SearchView
-        val searchView =searchItem?.findViewById(R.id.searchView) as SearchView
+        val searchView = searchItem?.findViewById(R.id.searchView) as SearchView
 
 
         searchView.setSearchableInfo(manager.getSearchableInfo(activity?.componentName))
@@ -176,9 +164,9 @@ class SearchArtistsFragment : BaseFragment(),
         //searchView.onActionViewExpanded()
         searchView.maxWidth = Integer.MAX_VALUE
 
-        fromview(searchView)
-            .debounce(300, TimeUnit.MILLISECONDS)
-            .filter { text -> text.isNotEmpty() && text.length >= 3 }
+        createObservableFromView(searchView)
+            .debounce(200, TimeUnit.MILLISECONDS)
+            .filter { text -> text.isNotEmpty() }
             .distinctUntilChanged()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

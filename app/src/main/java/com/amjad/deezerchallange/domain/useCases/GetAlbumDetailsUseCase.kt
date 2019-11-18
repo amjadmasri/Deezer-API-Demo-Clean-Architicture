@@ -5,9 +5,9 @@ import com.amjad.deezerchallange.domain.repositories.AlbumRepository
 import io.reactivex.Observable
 import javax.inject.Inject
 
-class GetAlbumDetailsUseCase @Inject constructor(private val albumRepository: AlbumRepository) {
+class GetAlbumDetailsUseCase @Inject constructor(private val albumRepository: AlbumRepository) :UseCase<String,AlbumDomainModel>{
 
-    fun execute(albumId:String) :Observable<AlbumDomainModel> {
+    override fun execute(albumId:String) :Observable<AlbumDomainModel> {
         return albumRepository.getAlbumDetails(albumId)
     }
 }

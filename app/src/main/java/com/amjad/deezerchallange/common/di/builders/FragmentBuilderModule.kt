@@ -6,7 +6,7 @@ import com.amjad.deezerchallange.presentation.di.ArtistAdapterModule
 import com.amjad.deezerchallange.presentation.di.TrackAdapterModule
 import com.amjad.deezerchallange.presentation.ui.albumDetails.AlbumDetailsFragment
 import com.amjad.deezerchallange.presentation.ui.albumList.AlbumsListFragment
-import com.amjad.starwars.presentation.ui.searchArtists.SearchArtistsFragment
+import com.amjad.deezerchallange.presentation.ui.searchArtist.SearchArtistsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
